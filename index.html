@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joyeux Anniversaire, Papa</title>
+  <meta name="description" content="Une lettre d'amour, de gratitude et de respect pour mon père en ce jour d'anniversaire si particulier.">
+
+  <!-- Favicon élégant (Monogramme SVG doré) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕊️</text></svg>">
+
+  <!-- Polices Google Fonts : Cormorant Garamond (Serif émotionnelle de haute couture) & Plus Jakarta Sans (Moderne et épurée) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Italiana&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Canvas d'étoiles et de particules dorées en arrière-plan -->
+  <canvas id="ambient-canvas" aria-hidden="true"></canvas>
+
+  <!-- Lueur ambiante subtile d'arrière-plan -->
+  <div class="ambient-glow glow-top" aria-hidden="true"></div>
+  <div class="ambient-glow glow-bottom" aria-hidden="true"></div>
+
+  <!-- Barre d'outils discrète en haut à droite (après ouverture) -->
+  <header class="experience-nav" id="experience-nav" aria-label="Navigation et ambiance">
+    <div class="nav-brand">
+      <span class="nav-date" id="current-date-badge">Pour toi, Papa</span>
+    </div>
+    <div class="nav-actions">
+      <!-- Bouton Ambiance sonore (Web Audio API sans dépendance externe) -->
+      <button class="icon-btn" id="audio-toggle-btn" aria-label="Activer ou couper l'ambiance sonore douce" title="Ambiance sonore">
+        <svg class="icon icon-sound-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <line x1="23" y1="9" x2="17" y2="15"></line>
+          <line x1="17" y1="9" x2="23" y2="15"></line>
+        </svg>
+        <svg class="icon icon-sound-on hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        </svg>
+        <span class="btn-text">Musique</span>
+      </button>
+
+      <!-- Changement d'ambiance lumière (Nocturne / Crème velin) -->
+      <button class="icon-btn" id="theme-toggle-btn" aria-label="Changer l'ambiance visuelle" title="Thème clair ou sombre">
+        <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="icon icon-moon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+
+      <!-- Bouton Souvenir / Imprimer la lettre -->
+      <button class="icon-btn" id="print-letter-btn" aria-label="Conserver ou imprimer cette lettre en souvenir" title="Conserver en souvenir (PDF / Impression)">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 6 2 18 2 18 9"></polyline>
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+          <rect x="6" y="14" width="12" height="8"></rect>
+        </svg>
+        <span class="btn-text">Garder en souvenir</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================
+       1. ÉCRAN D'OUVERTURE (Minimaliste, Pur, Émouvant)
+       ======================================================== -->
+  <section class="intro-screen" id="intro-screen" aria-label="Écran d'accueil">
+    <div class="intro-content">
+      <!-- Sceau doré d'introduction -->
+      <div class="intro-monogram" aria-hidden="true">
+        <div class="monogram-ring"></div>
+        <div class="monogram-core">✦</div>
+      </div>
+
+      <p class="intro-pretitle">Aujourd'hui est un jour spécial</p>
+      
+      <h1 class="intro-quote">
+        « Pour la personne qui m'a tant donné... »
+      </h1>
+
+      <div class="intro-action">
+        <button class="intro-btn" id="open-surprise-btn" type="button">
+          <span class="btn-shine" aria-hidden="true"></span>
+          <span class="btn-label">Ouvrir cette petite surprise</span>
+          <svg class="btn-arrow" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </button>
+      </div>
+
+      <p class="intro-hint">Prends un instant pour toi</p>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       CONTENU PRINCIPAL DE L'EXPÉRIENCE (Révélé après ouverture)
+       ======================================================== -->
+  <main class="main-experience" id="main-experience" aria-hidden="true">
+
+    <!-- 2. MESSAGE PRINCIPAL (Héro Typographique) -->
+    <section class="hero-section" id="hero-section" aria-label="Message principal">
+      <div class="container">
+        <div class="hero-badge reveal-item">
+          <span class="gold-line"></span>
+          <span class="badge-text">En ce jour si précieux</span>
+          <span class="gold-line"></span>
+        </div>
+
+        <h1 class="hero-title reveal-item">
+          Joyeux anniversaire,<br>
+          <span class="title-highlight">Papa.</span>
+        </h1>
+
+        <p class="hero-subtitle reveal-item">
+          Les mots ne suffisent jamais vraiment pour remercier un père pour tout ce qu'il a fait. 
+          Pour résumer des années de présence discrète, d'attention bienveillante et de sacrifices silencieux. 
+          Mais aujourd'hui, j'avais envie de prendre le temps de te l'écrire.
+        </p>
+
+        <div class="scroll-prompt reveal-item" aria-hidden="true">
+          <span class="scroll-mouse">
+            <span class="scroll-wheel"></span>
+          </span>
+          <span class="scroll-text">Continuer la lecture</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. LETTRE PERSONNELLE (Format Vellum & Sincérité Humaine) -->
+    <section class="letter-section" id="letter-section" aria-label="Lettre personnelle">
+      <div class="container container-narrow">
+        <article class="letter-paper reveal-item">
+          
+          <!-- En-tête de la lettre -->
+          <header class="letter-header">
+            <div class="letter-seal-container" aria-hidden="true">
+              <div class="letter-wax-seal">
+                <span>P</span>
+              </div>
+            </div>
+            <div class="letter-meta">
+              <span class="letter-date" id="letter-date-display">En ce jour d'anniversaire</span>
+              <span class="letter-recipient">Pour mon père, avec toute ma tendresse</span>
+            </div>
+            <div class="letter-divider"></div>
+          </header>
+
+          <!-- Corps de la lettre -->
+          <div class="letter-body">
+            <p class="letter-paragraph lead-paragraph">
+              Cher Papa,
+            </p>
+
+            <p class="letter-paragraph">
+              Il y a des choses qu'un père donne sans jamais chercher à les faire remarquer. 
+              Des réveils matinaux avant tout le monde, des journées entières passées à travailler sans jamais te plaindre, 
+              et ce regard rassurant qui, depuis toujours, me faisait comprendre que tout finirait par s'arranger.
+            </p>
+
+            <p class="letter-paragraph">
+              Avec les années et en grandissant, je commence seulement à mesurer le poids des responsabilités 
+              que tu as portées sur tes épaules. Tous ces sacrifices que tu as faits dans l'ombre, les doutes 
+              que tu as gardés pour toi afin de ne jamais nous inquiéter, et cette générosité naturelle 
+              qui te pousse à faire passer le bien de ta famille avant le tien.
+            </p>
+
+            <p class="letter-paragraph">
+              Aujourd'hui, j'éprouve une immense gratitude pour tout ce que tu m'as transmis : le goût de l'effort, 
+              le respect des autres, la dignité et cette force tranquille qui est la tienne. 
+              Chaque fois que j'avance dans la vie, c'est un peu de tes conseils et de ton exemple qui continuent 
+              de me guider.
+            </p>
+
+            <p class="letter-paragraph">
+              Je ne te le dis sans doute pas assez souvent, par pudeur ou par habitude, mais tu comptes énormément pour moi. 
+              Avoir un père comme toi à mes côtés est une chance inestimable, et je suis profondément fier d'être ton fils.
+            </p>
+
+            <p class="letter-paragraph">
+              Pour cette nouvelle année qui commence pour toi, je ne te souhaite que le meilleur : du repos bien mérité, 
+              des éclats de rire partagés, une santé solide, la sérénité du cœur et le sentiment profond 
+              d'avoir accompli de très grandes et très belles choses.
+            </p>
+          </div>
+
+          <!-- Pied de la lettre & Signature -->
+          <footer class="letter-footer">
+            <p class="letter-closing">Avec tout mon amour et mon admiration sincère,</p>
+            <div class="letter-signature">
+              <span class="signature-name">Ton fils</span>
+              <span class="signature-heart" aria-hidden="true">✦</span>
+            </div>
+          </footer>
+
+        </article>
+      </div>
+    </section>
+
+    <!-- 4. UNE PHRASE QUI MARQUE (Section Cinématographique & Solennelle) -->
+    <section class="quote-cinematic-section" id="quote-section" aria-label="Une phrase qui marque">
+      <div class="cinematic-backdrop" aria-hidden="true">
+        <div class="cinematic-glow"></div>
+      </div>
+      <div class="container container-quote">
+        <div class="quote-ornament reveal-item" aria-hidden="true">«</div>
+        
+        <blockquote class="quote-text reveal-item">
+          Je ne pourrai peut-être jamais te rendre tout ce que tu m'as donné, 
+          <span class="quote-accent">mais je n'oublierai jamais tout ce que tu as fait pour moi.</span>
+        </blockquote>
+
+        <div class="quote-line reveal-item" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- 5. FINAL (Vœux Chaleureux & Fermeture Émotionnelle) -->
+    <section class="final-section" id="final-section" aria-label="Message final">
+      <div class="container container-narrow">
+        
+        <div class="final-card reveal-item">
+          <!-- Icône de lumière douce -->
+          <div class="final-halo" aria-hidden="true">
+            <div class="halo-circle"></div>
+            <div class="halo-sparkle">✨</div>
+          </div>
+
+          <h2 class="final-wish">
+            « Je te souhaite encore de longues années de bonheur, de santé, de paix et de beaux moments. »
+          </h2>
+
+          <div class="final-love">
+            <p class="love-declaration">Je t'aime, Papa.</p>
+            <span class="love-heart" id="interactive-heart" role="button" tabindex="0" aria-label="Cœur d'amour interactif" title="Clique pour envoyer de la chaleur">❤️</span>
+          </div>
+
+          <p class="final-subtext">
+            Merci d'être le père que tu es.
+          </p>
+
+          <!-- Boutons de fin d'expérience -->
+          <div class="final-actions">
+            <button class="secondary-btn" id="restart-view-btn" type="button">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="1 4 1 10 7 10"></polyline>
+                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+              </svg>
+              <span>Revoir depuis le début</span>
+            </button>
+
+            <button class="secondary-btn" id="print-final-btn" type="button">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                <polyline points="7 3 7 8 15 8"></polyline>
+              </svg>
+              <span>Imprimer ou sauvegarder la lettre</span>
+            </button>
+          </div>
+        </div>
+
+        <footer class="experience-footer">
+          <p class="footer-note">Créé avec tout mon cœur pour ton anniversaire • Pour toujours</p>
+        </footer>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
